@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
         db.addBook(new Book("Android Programming: The Big Nerd Ranch Guide", "Bill Phillips and Brian Hardy"));
         db.addBook(new Book("Learn Android App Development", "Wallace Jackson"));
 
-        List<Books> books = db.getAllBooks();
+        List<Book> books = db.getAllBooks();
 
         db.deleteBook(books.get(0));
 

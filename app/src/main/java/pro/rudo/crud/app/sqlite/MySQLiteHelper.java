@@ -55,8 +55,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 null, // g. order by
                 null); // h. limit
 
-        if (cursor != null)
-            cursor.moveToFirst();
+        if (cursor != null) cursor.moveToFirst();
 
         Book book = new Book();
         book.setId(Integer.parseInt(cursor.getString(0)));
@@ -68,7 +67,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return book;
     }
 
-    public List<Books> getAllBooks(){
+    public List<Book> getAllBooks(){
         List<Book> books = new LinkedList<Book>();
 
         String query = "SELECT * FROM " + TABLE_BOOKS;
@@ -93,7 +92,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return books;
     }
 
-    public void updateBook(Book book){
+    public int updateBook(Book book){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -105,13 +104,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 KEY_ID,
                 new String[]{String.valueOf(book.getId())});
 
-        db.close;
+        db.close();
         return i;
     }
     public void deleteBook(Book book){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.delete(TABLE_BOOKS, KEY_ID+" = ?", new String[]{ String.valueOf(book,getId())});
+        db.delete(TABLE_BOOKS, KEY_ID+" = ?", new String[]{ String.valueOf(book.getId())});
         db.close();
 
         Log.d("deleteBook()", book.toString());
