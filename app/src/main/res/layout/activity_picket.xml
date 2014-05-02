@@ -25,14 +25,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="От"
+                    android:text="@string/from"
                     android:id="@+id/textView"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true" />
@@ -41,18 +41,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/editText"
-                    android:layout_weight="1"
                     android:layout_toRightOf="@+id/textView"
                     android:layout_toLeftOf="@+id/checkBox" />
 
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Луч"
+                    android:text="@string/ray"
                     android:id="@+id/checkBox"
                     android:checked="false"
                     android:layout_gravity="right"
-                    android:layout_weight="1"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true" />
 
@@ -66,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="До"
+                    android:text="@string/to"
                     android:id="@+id/textView2"
                     android:layout_weight="1" />
 
@@ -80,175 +78,205 @@
             </RelativeLayout>
 
             <TableLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
 
                 <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Длина"
+                        android:text="@string/length"
                         android:id="@+id/lengthLbl"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp" />
+                        android:layout_weight="0.3"
+                        android:gravity="center_horizontal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Азимут"
+                        android:text="@string/azimuth"
                         android:id="@+id/azimuthLbl"
                         android:layout_column="1"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp" />
+                        android:layout_weight="0.3"
+                        android:gravity="center_horizontal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Наклон"
-                        android:id="@+id/agleLbl"
+                        android:text="@string/incline"
+                        android:id="@+id/inclineLbl"
                         android:layout_column="2"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp" />
+                        android:layout_weight="0.3"
+                        android:gravity="center_horizontal" />
 
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/lengthTB" />
+                        android:id="@+id/lengthTB"
+                        android:layout_weight="0.3"
+                        android:inputType="number" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/azimuthTB" />
+                        android:id="@+id/azimuthTB"
+                        android:layout_weight="0.3"
+                        android:inputType="number" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/agleTB" />
+                        android:id="@+id/inclineTB"
+                        android:layout_weight="0.3"
+                        android:inputType="number" />
 
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Обратный"
-                        android:id="@+id/backLbl" />
+                        android:text="@string/back"
+                        android:id="@+id/backLbl"
+                        android:layout_weight="0.3"
+                        android:gravity="center_horizontal" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/backAzimuthTB" />
+                        android:id="@+id/backAzimuthTB"
+                        android:layout_weight="0.3"
+                        android:inputType="number" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/backAgleTB" />
+                        android:id="@+id/backInclineTB"
+                        android:layout_weight="0.3"
+                        android:inputType="number" />
                 </TableRow>
+
             </TableLayout>
 
             <TableLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
                 <TableRow
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/left"
                         android:id="@+id/leftLbl"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp" />
+                        android:layout_weight="0.25"
+                        android:gravity="center_horizontal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/right"
                         android:id="@+id/rightLbl"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp" />
+                        android:layout_weight="0.25"
+                        android:gravity="center_horizontal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/up"
                         android:id="@+id/upLbl"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp" />
+                        android:layout_weight="0.25"
+                        android:gravity="center_horizontal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/down"
                         android:id="@+id/downLbl"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp" />
+                        android:layout_weight="0.25"
+                        android:gravity="center_horizontal" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/rig" />
+                        android:id="@+id/rig"
+                        android:layout_weight="0.25"
+                        android:inputType="number" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText9" />
+                        android:id="@+id/editText9"
+                        android:layout_weight="0.25"
+                        android:inputType="number" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText10" />
+                        android:id="@+id/editText10"
+                        android:layout_weight="0.25"
+                        android:inputType="number" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText11" />
+                        android:id="@+id/editText11"
+                        android:layout_weight="0.25"
+                        android:inputType="number" />
 
                 </TableRow>
 
             </TableLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/comment"
-                android:id="@+id/commentTB"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:layout_marginTop="25dp" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="127dp"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:id="@+id/editText3" />
+                android:id="@+id/editText3"
+                android:hint="@string/comment"
+                android:editable="false"
+                android:ellipsize="start"
+                android:gravity="center_vertical" />
+
+            <GridLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            </GridLayout>
 
         </LinearLayout>
     </ScrollView>
@@ -258,20 +286,23 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:layout_weight="1">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ok"
-            android:id="@+id/button" />
+            android:id="@+id/button"
+            android:layout_weight="0.5" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
             android:id="@+id/button2"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5" />
 
         </LinearLayout>
 

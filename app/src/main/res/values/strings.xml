@@ -17,5 +17,13 @@
     <string name="right">Право</string>
     <string name="up">Вверх</string>
     <string name="down">Вниз</string>
+    <string name="length">Длина</string>
+    <string name="azimuth">Азимут</string>
+    <string name="incline">Наклон</string>
+    <string name="back">Обратный</string>
+    <string name="author">Author</string>
+    <string name="to">До</string>
+    <string name="from">От</string>
+    <string name="ray">Луч</string>
 
 </resources>
