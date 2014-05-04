@@ -1,10 +1,6 @@
 package pro.rudo.crud.app.model;
 
 public class PicketBuilder {
-    public Picket createPicket() {
-        return new Picket(this);
-    }
-
     private boolean isRay = false;
     private String from;
     private String to;
@@ -16,6 +12,22 @@ public class PicketBuilder {
     private double left;
     private String leftComment;
     private double right;
+    private String rightComment;
+    private double up;
+    private String upComment;
+    private double down;
+    private String downComment;
+    private String comment;
+    private int id;
+    private int mapId;
+
+    public PicketBuilder(){
+
+    }
+
+    public Picket createPicket() {
+        return new Picket(this);
+    }
 
     public String getLeftComment() {
         return leftComment;
@@ -36,13 +48,6 @@ public class PicketBuilder {
     public String getComment() {
         return comment;
     }
-
-    private String rightComment;
-    private double up;
-    private String upComment;
-    private double down;
-    private String downComment;
-    private String comment;
 
     public boolean isRay() {
         return isRay;
@@ -176,4 +181,14 @@ public class PicketBuilder {
         this.comment = comment;
         return this;
     }
+
+    public PicketBuilder withMap(int id){
+        this.mapId = id;
+        return this;
+    }
+
+//    public PicketBuilder withMap(Map map){
+//        this.mapId = map.getId();
+//        return this;
+//    }
 }

@@ -13,6 +13,8 @@ public class Picket {
     private double backAzimuth;
     private double backIncline;
     private double left;
+    private int id;
+    private int mapId;
     private String leftComment;
     private double right;
     private String rightComment;
@@ -39,6 +41,23 @@ public class Picket {
         this.down = builder.getDown();
         this.downComment = builder.getDownComment();
         this.comment = builder.getComment();
+
+    }
+
+    public int getMapId() {
+        return mapId;
+    }
+
+    public void setMapId(int mapId) {
+        this.mapId = mapId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLeftComment() {
