@@ -16,15 +16,15 @@ import pro.rudo.crud.app.model.Book;
  * Created by rudolf on 17.04.14.
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "BookDB";
+    protected static final int DATABASE_VERSION = 1;
+    protected static final String DATABASE_NAME = "SpeleoToolsDB";
 
-    private static final String TABLE_BOOKS = "books";
-    private static final String KEY_ID = "id";
-    private static final String KEY_TITLE = "title";
-    private static final String KEY_AUTHOR = "author";
+    protected static final String TABLE_BOOKS = "books";
+    protected static final String KEY_ID = "id";
+    protected static final String KEY_TITLE = "title";
+    protected static final String KEY_AUTHOR = "author";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_TITLE,KEY_AUTHOR};
+    protected static final String[] COLUMNS = {KEY_ID,KEY_TITLE,KEY_AUTHOR};
 
     public MySQLiteHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
