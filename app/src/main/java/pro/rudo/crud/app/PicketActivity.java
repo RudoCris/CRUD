@@ -7,9 +7,19 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseAnalytics;
+
+import static java.lang.Math.PI;
 
 
 public class PicketActivity extends ActionBarActivity  implements SensorEventListener {
@@ -18,11 +28,12 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
     private Sensor senAccelerometer;
     private Sensor senMagnet;
 
-    private long lastUpdate = 0;
-    private float last_x, last_y, last_z;
-
     private EditText azimuthTB;
     private EditText inclineTB;
+    private EditText backAzimuthTB;
+    private EditText backInclineTB;
+    private Button okBtn;
+    private Context context = this;
     private float[] orientationData;
     private float[] rotationMatrix;
     private float[] accelerometerData;
@@ -44,6 +55,21 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         sensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         azimuthTB = (EditText) findViewById(R.id.azimuthTB);
         inclineTB = (EditText) findViewById(R.id.inclineTB);
+        backAzimuthTB = (EditText) findViewById(R.id.backAzimuthTB);
+        backInclineTB = (EditText) findViewById(R.id.backInclineTB);
+
+        Parse.initialize(this, "jG4p9JnJXW1f8jaYvynOTsB9z1BjZpFThx6MnLBc", "F8JQZoPtkUqYWTptr99vAvcdQnbjd9zh6LCXSTBW");
+
+        okBtn = (Button) findViewById(R.id.okBtn);
+        okBtn.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseObject testObject = new ParseObject("TestObject");
+                testObject.put("foo", "rud");
+                testObject.saveInBackground();
+                Toast.makeText(context, "SAVED", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     protected void onPause() {
@@ -90,9 +116,39 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
 
         SensorManager.getRotationMatrix(rotationMatrix, null, accelerometerData, magnetData);
         SensorManager.getOrientation(rotationMatrix, orientationData);
-        azimuthTB.setText(Float.toString(orientationData[0]));
-        inclineTB.setText(Float.toString(orientationData[1]));
 
+        double azimuthDeg = orientationData[0] * 180/PI;
+        double inclineDeg = orientationData[1] * 180/PI;
+        azimuthDeg = Math.round(azimuthDeg*10)/10;
+        inclineDeg = Math.round(inclineDeg*10)/10;
+
+        azimuthTB.setText(Double.toString(azimuthDeg));
+        inclineTB.setText(Double.toString(inclineDeg));
+
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (action == KeyEvent.ACTION_UP) {
+                    backAzimuthTB.setText(azimuthTB.getText().toString());
+                    backInclineTB.setText(inclineTB.getText().toString());
+                    Toast.makeText(this, "UP", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    backAzimuthTB.setText(azimuthTB.getText().toString());
+                    backInclineTB.setText(inclineTB.getText().toString());
+                    Toast.makeText(this, "Down", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
     }
 
     @Override

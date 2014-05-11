@@ -293,14 +293,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ok"
-            android:id="@+id/button"
+            android:id="@+id/okBtn"
             android:layout_weight="0.5" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:id="@+id/button2"
+            android:id="@+id/cancelBtn"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5" />
 
