@@ -1,5 +1,7 @@
 package pro.rudo.crud.app.model;
 
+import com.google.gson.Gson;
+
 /**
  * Created by rudolf on 03.05.14.
  */
@@ -44,6 +46,10 @@ public class Picket {
 
     }
 
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
     public int getMapId() {
         return mapId;
     }

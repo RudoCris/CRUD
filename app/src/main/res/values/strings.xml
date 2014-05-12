@@ -4,12 +4,13 @@
     <string name="app_name">CRUD</string>
     <string name="hello_world">Hello world!</string>
     <string name="delete">Delete</string>
-    <string name="add">Add</string>
+    <string name="add">Добавить</string>
+    <string name="create">Создать</string>
     <string name="title_activity_new_map">NewMap</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Настройки</string>
     <string name="new_map">Карта</string>
-    <string name="save">Save</string>
-    <string name="title_activity_picket">PicketActivity</string>
+    <string name="save">Сохранить</string>
+    <string name="title_activity_picket">Пикет</string>
     <string name="cancel">Отмена</string>
     <string name="ok">Ок</string>
     <string name="comment">Комментарий</string>
@@ -25,5 +26,9 @@
     <string name="to">До</string>
     <string name="from">От</string>
     <string name="ray">Луч</string>
+    <string name="title_activity_edit_prefences">Настройки</string>
+    <string name="enter_your_name">Введите ваше имя</string>
+    <string name="vasya">Вася</string>
+    <string name="action_save">Cохранить</string>
 
 </resources>

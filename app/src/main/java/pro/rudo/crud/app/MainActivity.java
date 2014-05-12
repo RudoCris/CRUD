@@ -1,9 +1,11 @@
 package pro.rudo.crud.app;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 
 import java.util.List;
@@ -25,6 +27,14 @@ public class MainActivity extends ListActivity {
 
         ArrayAdapter<Book> adapter = new ArrayAdapter<Book>(this, android.R.layout.simple_list_item_1, books);
         setListAdapter(adapter);
+
+        Button createBtn = (Button) findViewById(R.id.createBtn);
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), NewMap.class));
+            }
+        });
     }
 
     public void onClick(View view){

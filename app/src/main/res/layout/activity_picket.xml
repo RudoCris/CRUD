@@ -40,7 +40,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText"
+                    android:id="@+id/fromTB"
                     android:layout_toRightOf="@+id/textView"
                     android:layout_toLeftOf="@+id/checkBox" />
 
@@ -71,7 +71,7 @@
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText2"
+                    android:id="@+id/toTB"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/textView2"
                     android:layout_alignParentRight="true" />

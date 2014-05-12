@@ -1,6 +1,7 @@
 package pro.rudo.crud.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,6 +20,8 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseAnalytics;
 
+import pro.rudo.crud.app.model.Book;
+
 import static java.lang.Math.PI;
 
 
@@ -32,8 +35,8 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
     private EditText inclineTB;
     private EditText backAzimuthTB;
     private EditText backInclineTB;
+    private EditText fromTB;
     private Button okBtn;
-    private Context context = this;
     private float[] orientationData;
     private float[] rotationMatrix;
     private float[] accelerometerData;
@@ -57,8 +60,7 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         inclineTB = (EditText) findViewById(R.id.inclineTB);
         backAzimuthTB = (EditText) findViewById(R.id.backAzimuthTB);
         backInclineTB = (EditText) findViewById(R.id.backInclineTB);
-
-        Parse.initialize(this, "jG4p9JnJXW1f8jaYvynOTsB9z1BjZpFThx6MnLBc", "F8JQZoPtkUqYWTptr99vAvcdQnbjd9zh6LCXSTBW");
+        fromTB = (EditText) findViewById(R.id.fromTB);
 
         okBtn = (Button) findViewById(R.id.okBtn);
         okBtn.setOnClickListener(new android.view.View.OnClickListener() {
@@ -67,7 +69,11 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
                 ParseObject testObject = new ParseObject("TestObject");
                 testObject.put("foo", "rud");
                 testObject.saveInBackground();
-                Toast.makeText(context, "SAVED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "SAVED", Toast.LENGTH_SHORT).show();
+                Book b = new Book();
+                b.setAuthor("Rudolf");
+                b.setTitle("Erl Mel & Nancy");
+                fromTB.setText(b.toJson());
             }
         });
     }
@@ -96,7 +102,11 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        if(id == R.id.action_settings){
+            startActivity(new Intent(getBaseContext(), EditPrefencesActivity.class));
+            return true;
+        }
+        return  super.onOptionsItemSelected(item);
     }
 
     private void loadNewSensorData(SensorEvent event){

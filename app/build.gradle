@@ -20,6 +20,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:19.+'
     compile files('/home/rudolf/android_projects/CRUD/libs/Parse-1.5.0.jar')
+    compile files('/home/rudolf/android_projects/CRUD/libs/google-gson-2.2.4/gson-2.2.4.jar')
+    compile 'com.android.support:appcompat-v7:19.+'
 }
