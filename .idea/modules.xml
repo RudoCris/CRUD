@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Book/Book.iml" filepath="$PROJECT_DIR$/Book/Book.iml" />
       <module fileurl="file://$PROJECT_DIR$/Book/Book.iml" filepath="$PROJECT_DIR$/Book/Book.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Book/Book.iml" filepath="$PROJECT_DIR$/Book/Book.iml" />
       <module fileurl="file://$PROJECT_DIR$/CRUD.iml" filepath="$PROJECT_DIR$/CRUD.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyBook/MyBook.iml" filepath="$PROJECT_DIR$/MyBook/MyBook.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />

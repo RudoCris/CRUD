@@ -97,6 +97,16 @@ public class PicketBuilder {
         return down;
     }
 
+    public PicketBuilder withId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public PicketBuilder withMapId(int id) {
+        this.mapId = id;
+        return this;
+    }
+
     public PicketBuilder withRay(boolean ray) {
         this.isRay = ray;
         return this;
@@ -187,7 +197,7 @@ public class PicketBuilder {
         return this;
     }
 
-//    public PicketBuilder withMap(Map map){
+//    public PicketBuilder withMap(Cave map){
 //        this.mapId = map.getId();
 //        return this;
 //    }

@@ -32,6 +32,10 @@
             android:name="pro.rudo.crud.app.EditPrefencesActivity"
             android:label="@string/title_activity_edit_prefences" >
         </activity>
+        <activity
+            android:name="pro.rudo.crud.app.PicketsList"
+            android:label="@string/title_activity_pickets_list" >
+        </activity>
     </application>
 
 </manifest>

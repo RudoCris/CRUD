@@ -30,5 +30,9 @@
     <string name="enter_your_name">Введите ваше имя</string>
     <string name="vasya">Вася</string>
     <string name="action_save">Cохранить</string>
+    <string name="name">Название</string>
+    <string name="title_activity_pickets_list">PicketsList</string>
+    <string name="picket">Pickets</string>
+    <string name="caves">Карты</string>
 
 </resources>

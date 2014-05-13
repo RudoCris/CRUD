@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.Parse;
@@ -21,6 +23,9 @@ import com.parse.ParseObject;
 import com.parse.ParseAnalytics;
 
 import pro.rudo.crud.app.model.Book;
+import pro.rudo.crud.app.model.Picket;
+import pro.rudo.crud.app.model.PicketBuilder;
+import pro.rudo.crud.app.sqlite.PicketSQLiteHelper;
 
 import static java.lang.Math.PI;
 
@@ -30,18 +35,29 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
     private SensorManager sensorManager;
     private Sensor senAccelerometer;
     private Sensor senMagnet;
-
+    private CheckBox isRay;
+    private EditText lengthTB;
     private EditText azimuthTB;
     private EditText inclineTB;
     private EditText backAzimuthTB;
     private EditText backInclineTB;
+    private EditText leftTB;
+    private EditText rigthTB;
+    private EditText upTB;
+    private EditText downTB;
     private EditText fromTB;
+    private EditText toTB;
+    private EditText commentTB;
     private Button okBtn;
+    private Button cancelBtn;
+    private TextView currentAzimuthLbl;
+    private TextView currentInclineLbl;
     private float[] orientationData;
     private float[] rotationMatrix;
     private float[] accelerometerData;
     private float[] magnetData;
 
+    private PicketSQLiteHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,25 +71,60 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         magnetData = new float[3];
         orientationData = new float[3];
 
+        db = new PicketSQLiteHelper(this);
+
         sensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        lengthTB = (EditText) findViewById(R.id.lengthTB);
         azimuthTB = (EditText) findViewById(R.id.azimuthTB);
         inclineTB = (EditText) findViewById(R.id.inclineTB);
         backAzimuthTB = (EditText) findViewById(R.id.backAzimuthTB);
         backInclineTB = (EditText) findViewById(R.id.backInclineTB);
+        leftTB = (EditText) findViewById(R.id.leftTB);
+        rigthTB = (EditText) findViewById(R.id.rightTB);
+        upTB = (EditText) findViewById(R.id.upTB);
+        downTB = (EditText) findViewById(R.id.downTB);
+        currentAzimuthLbl = (TextView) findViewById(R.id.currentAzimuthLbl);
+        currentInclineLbl = (TextView) findViewById(R.id.currentInacleLbl);
         fromTB = (EditText) findViewById(R.id.fromTB);
+        toTB = (EditText) findViewById(R.id.toTB);
+        isRay = (CheckBox) findViewById(R.id.isRay);
+        commentTB = (EditText) findViewById(R.id.commentTB);
+        cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), PicketsList.class));
+            }
+        });
 
         okBtn = (Button) findViewById(R.id.okBtn);
         okBtn.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseObject testObject = new ParseObject("TestObject");
-                testObject.put("foo", "rud");
-                testObject.saveInBackground();
+
+                Picket picket = new PicketBuilder()
+                        .withRay(isRay.isChecked())
+                        .withFrom(fromTB.getText().toString())
+                        .withTo(toTB.getText().toString())
+                        .withLength(Double.parseDouble(lengthTB.getText().toString()))
+                        .withAzimuth(Double.parseDouble(azimuthTB.getText().toString()))
+                        .withIncline(Double.parseDouble(inclineTB.getText().toString()))
+                        .withBackAzimuth(Double.parseDouble(backAzimuthTB.getText().toString()))
+                        .withBackIncline(Double.parseDouble(backInclineTB.getText().toString()))
+                        .withLeft(Double.parseDouble(leftTB.getText().toString()))
+                        .withRight(Double.parseDouble(rigthTB.getText().toString()))
+                        .withUp(Double.parseDouble(upTB.getText().toString()))
+                        .withDown(Double.parseDouble(downTB.getText().toString()))
+                        .withComment(commentTB.getText().toString())
+                        .createPicket();
+
+                long id = db.addPicket(picket);
+
+//                ParseObject testObject = new ParseObject("TestObject");
+//                testObject.put("foo", "rud");
+//                testObject.saveInBackground();
                 Toast.makeText(getApplicationContext(), "SAVED", Toast.LENGTH_SHORT).show();
-                Book b = new Book();
-                b.setAuthor("Rudolf");
-                b.setTitle("Erl Mel & Nancy");
-                fromTB.setText(b.toJson());
+                startActivity(new Intent(getApplicationContext(), PicketsList.class));
             }
         });
     }
@@ -93,7 +144,8 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.picket, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -102,9 +154,13 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if(id == R.id.action_settings){
-            startActivity(new Intent(getBaseContext(), EditPrefencesActivity.class));
-            return true;
+        switch (id){
+            case R.id.action_settings:
+                startActivity(new Intent(getApplicationContext(), EditPrefencesActivity.class));
+                return true;
+            case R.id.goToCaves:
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                return true;
         }
         return  super.onOptionsItemSelected(item);
     }
@@ -132,8 +188,8 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         azimuthDeg = Math.round(azimuthDeg*10)/10;
         inclineDeg = Math.round(inclineDeg*10)/10;
 
-        azimuthTB.setText(Double.toString(azimuthDeg));
-        inclineTB.setText(Double.toString(inclineDeg));
+        currentAzimuthLbl.setText(Double.toString(azimuthDeg));
+        currentInclineLbl.setText(Double.toString(inclineDeg));
 
     }
 
@@ -144,16 +200,14 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_UP) {
-                    backAzimuthTB.setText(azimuthTB.getText().toString());
-                    backInclineTB.setText(inclineTB.getText().toString());
-                    Toast.makeText(this, "UP", Toast.LENGTH_SHORT).show();
+                    azimuthTB.setText(currentAzimuthLbl.getText().toString());
+                    inclineTB.setText(currentInclineLbl.getText().toString());
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    backAzimuthTB.setText(azimuthTB.getText().toString());
-                    backInclineTB.setText(inclineTB.getText().toString());
-                    Toast.makeText(this, "Down", Toast.LENGTH_SHORT).show();
+                    azimuthTB.setText(currentAzimuthLbl.getText().toString());
+                    inclineTB.setText(currentInclineLbl.getText().toString());
                 }
                 return true;
             default:

@@ -17,14 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/titleTextBox"
         android:layout_gravity="center_horizontal"
-        android:hint="Title" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/authorTextBox"
-        android:layout_gravity="center_horizontal"
-        android:hint="@string/author" />
+        android:hint="@string/name" />
 
     <Button
         android:layout_width="wrap_content"

@@ -7,19 +7,27 @@ import android.content.SharedPreferences;
 /**
  * Created by rudolf on 12.05.14.
  */
-public class Map {
-    private int _id;
+public class Cave {
+    private int id;
     private String name;
     private String author;
 
-    public Map(String name, Context context) {
+    public Cave(){
+
+    }
+
+    public Cave(String name, Context context) {
         this.name = name;
         SharedPreferences pref = context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE);
         this.author = pref.getString("author", "");
     }
 
-    public int get_id() {
-        return _id;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -36,5 +44,9 @@ public class Map {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String toString() {
+        return this.name + "(from " + this.author + ")";
     }
 }

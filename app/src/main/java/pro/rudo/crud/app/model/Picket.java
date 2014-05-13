@@ -202,4 +202,8 @@ public class Picket {
         this.down = down;
     }
 
+    public String toString() {
+        return "От " + this.from + " до " + this.to;
+    }
+
 }

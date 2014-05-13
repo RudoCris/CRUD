@@ -10,8 +10,7 @@
             android:layout_height="wrap_content"
             android:text="@string/create"
             android:id="@+id/createBtn"
-            android:layout_gravity="center_horizontal"
-            android:onClick="onClick" />
+            android:layout_gravity="center_horizontal" />
 
 
     <ListView

@@ -27,7 +27,7 @@ public class EditPrefencesActivity extends Activity {
         saveBtn = (Button) findViewById(R.id.saveBtn);
 
         pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
+        name.setText(pref.getString("author", ""));
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
