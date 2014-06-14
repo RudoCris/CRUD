@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://googledrive.com/host/0B6bYmxTB07z2ODgwQjNGeVVfUTg/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Кривые Безье</title>
+
+
+</head>
+<body>
+<div style="clear: both">
+    <canvas id="canvas" style="width: 70%; float: left;" width="400" height="400">
+        <p>Увас не поддеривается Канвас, поставьте гугл хром =)</p>
+    </canvas>
+</div>
+
+<script src="util.js"></script>
+<script src="shapes.js"></script>
+<script src="point3d.js"></script>
+<script type="text/javascript">
+
+
+window.onload = function(){
+    //получаем холст "канвас"
+    var canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d'),
+        points = [],
+        vpX = canvas.width / 2;
+        vpY = canvas.height / 2;
+        mouse = utils.captureMouse(canvas),
+        balls = new Array;
+
+
+    function setPoints(){
+        console.log("Hello world");
+        var arr = JSON.parse(Android.getPickets());
+        point = new Point3d(0, 0, 0);
+        point.setVanishingPoint(vpX, vpY);
+        points.push(point);
+        for(var i=0; i<arr.length; i++){
+            point = new Point3d(arr[i][0], arr[i][1], arr[i][2]);
+            point.setVanishingPoint(vpX, vpY);
+            points.push(point);
+        }
+    }
+    
+    function move(point){
+        point.rotateX(angleX);
+        point.rotateY(angleY);
+    }
+
+    function draw(point, i){
+        if(i!=0 && point.isVisible()){
+            context.lineTo(point.getScreenX(), point.getScreenY());
+        }
+    }
+
+      var rx = canvas.width / 2, 
+          ry = canvas.height / 2,
+          vx = 0, vy = 0;
+
+    (function drawFrame(){
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        //angleX = (mouse.y - vpY) * 0.0001;
+        angleX = 0;
+        angleY = (mouse.x - vpX) * 0.0001;
+        // angleX = (ry - vpY) * 0.0005;
+        // angleY = (rx - vpX) * 0.0005;
+        points.forEach(function(point){
+            point.setVanishingPoint(vpX+vx, vpY+vy)
+            point.setCenter(0, 0, rx)
+        });
+        
+        context.save();
+        context.beginPath(); 
+        if(points[0]){
+            context.moveTo(points[0].getScreenX(), points[0].getScreenY());
+        }
+        points.forEach(draw);
+        context.stroke();
+        context.restore();
+    }());
+    setPoints()
+}
+</script>
+
+
+</body></html>
