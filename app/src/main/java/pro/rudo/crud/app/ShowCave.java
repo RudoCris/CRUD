@@ -1,25 +1,16 @@
 package pro.rudo.crud.app;
 
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 
-public class ShowCave extends ActionBarActivity {
-    WebView myWebView;
+public class ShowCave extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_cave);
-        myWebView = (WebView) findViewById(R.id.webView);
-        WebSettings webSettings = myWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setBuiltInZoomControls(true);
-        myWebView.addJavascriptInterface(new ShowInterface(this), "Android");
-        myWebView.loadUrl("file:///android_asset/index.html");
     }
 
 

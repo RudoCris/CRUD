@@ -1,41 +1,19 @@
 package pro.rudo.crud.app;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.Toast;
 
-import java.util.List;
+public class PicketsList extends FragmentActivity implements PicketsFragment.OnFragmentInteractionListener {
 
-import pro.rudo.crud.app.model.Picket;
-import pro.rudo.crud.app.sqlite.PicketSQLiteHelper;
-
-
-public class PicketsList extends ListActivity {
-    private PicketSQLiteHelper db;
-    private Button addBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pickets_list);
-        addBtn = (Button) findViewById(R.id.addBtn);
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), PicketActivity.class));
-            }
-        });
-
-        db = new PicketSQLiteHelper(this);
-        List<Picket> pickets = db.getAllPickets();
-
-        ArrayAdapter<Picket> adapter = new ArrayAdapter<Picket>(this, android.R.layout.simple_list_item_1, pickets);
-        setListAdapter(adapter);
     }
 
 
@@ -63,5 +41,11 @@ public class PicketsList extends ListActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+        Toast toast = Toast.makeText(this, "Wheeee!",Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

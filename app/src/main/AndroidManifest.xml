@@ -30,15 +30,16 @@
         <activity
             android:name=".PicketsList"
             android:label="@string/title_activity_pickets_list" >
-        </activity>
-        <activity
-            android:name=".ShowCave"
-            android:label="@string/title_activity_show_cave" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ShowCave"
+            android:label="@string/title_activity_show_cave" >
+
         </activity>
     </application>
 
