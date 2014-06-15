@@ -1,35 +1,90 @@
 package pro.rudo.crud.app;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.widget.Toast;
 
 
-public class ShowCave extends FragmentActivity {
+public class ShowCave extends FragmentActivity implements ActionBar.TabListener, PicketsFragment.OnFragmentInteractionListener {
+
+    CavePagerAdapter mCavePagerAdapter;
+    ViewPager mViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_cave);
-    }
+        mCavePagerAdapter = new CavePagerAdapter(getSupportFragmentManager());
+        final ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mCavePagerAdapter);
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.show_cave, menu);
-        return true;
-    }
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+        });
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        for (int i = 0; i < mCavePagerAdapter.getCount(); i++ ) {
+            actionBar.addTab(actionBar.newTab()
+                                      .setText(mCavePagerAdapter.getPageTitle(i))
+                                      .setTabListener(this));
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+        Toast.makeText(this, "Wheee!", Toast.LENGTH_SHORT).show();
+    }
+
+    public static class CavePagerAdapter extends FragmentPagerAdapter {
+
+        public CavePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+            @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new PicketsFragment();
+                default:
+                    return new CaveFragment();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position){
+            return "Tab " + (position);
+        }
     }
 }
