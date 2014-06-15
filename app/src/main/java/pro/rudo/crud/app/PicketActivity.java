@@ -93,7 +93,7 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), PicketsList.class));
+                startActivity(new Intent(getApplicationContext(), ShowCave.class));
             }
         });
 
@@ -124,7 +124,7 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
 //                testObject.put("foo", "rud");
 //                testObject.saveInBackground();
                 Toast.makeText(getApplicationContext(), "SAVED", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), PicketsList.class));
+                startActivity(new Intent(getApplicationContext(), ShowCave.class));
             }
         });
     }

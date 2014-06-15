@@ -28,10 +28,6 @@
             android:label="@string/title_activity_edit_prefences" >
         </activity>
         <activity
-            android:name=".PicketsList"
-            android:label="@string/title_activity_pickets_list" >
-        </activity>
-        <activity
             android:name=".ShowCave"
             android:label="@string/title_activity_show_cave" >
             <intent-filter>
