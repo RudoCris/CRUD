@@ -3,6 +3,7 @@ package pro.rudo.crud.app;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.widget.Toast;
 
 
-public class ShowCave extends FragmentActivity implements ActionBar.TabListener, PicketsFragment.OnFragmentInteractionListener {
+public class ShowCave extends FragmentActivity implements ActionBar.TabListener, PicketsFragment.OnFragmentInteractionListener, EditOrDeleteDialog.EditOrDeleteDialogListener {
 
     CavePagerAdapter mCavePagerAdapter;
     ViewPager mViewPager;
@@ -19,6 +20,10 @@ public class ShowCave extends FragmentActivity implements ActionBar.TabListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTitle("Топосъемки");
         setContentView(R.layout.activity_show_cave);
         mCavePagerAdapter = new CavePagerAdapter(getSupportFragmentManager());
         final ActionBar actionBar = getActionBar();
@@ -61,6 +66,13 @@ public class ShowCave extends FragmentActivity implements ActionBar.TabListener,
         Toast.makeText(this, "Wheee!", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onDialogClick(DialogFragment dialogFragment, int which) {
+        Toast.makeText(this, (which == 0) ? "EDIT!" : "DELETE!", Toast.LENGTH_SHORT).show();
+
+    }
+
+
     public static class CavePagerAdapter extends FragmentPagerAdapter {
 
         public CavePagerAdapter(FragmentManager fm) {
@@ -84,7 +96,8 @@ public class ShowCave extends FragmentActivity implements ActionBar.TabListener,
 
         @Override
         public CharSequence getPageTitle(int position){
-            return "Tab " + (position);
+            String[] tabNames = {"Пикеты", "План"};
+            return tabNames[position];
         }
     }
 }

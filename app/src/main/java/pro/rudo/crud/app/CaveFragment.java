@@ -37,7 +37,6 @@ public class CaveFragment extends Fragment {
         myWebView = (WebView) rootView.findViewById(R.id.webView);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setBuiltInZoomControls(true);
         myWebView.addJavascriptInterface(new ShowInterface(getActivity()), "Android");
         myWebView.loadUrl("file:///android_asset/index.html");
     }

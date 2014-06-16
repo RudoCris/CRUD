@@ -16,7 +16,7 @@ import pro.rudo.crud.app.model.Book;
  * Created by rudolf on 17.04.14.
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
-    protected static final int DATABASE_VERSION = 1;
+    protected static final int DATABASE_VERSION = 4;
     protected static final String DATABASE_NAME = "SpeleoToolsDB";
 
     protected static final String TABLE_BOOKS = "books";

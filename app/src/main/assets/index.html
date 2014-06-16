@@ -4,13 +4,19 @@
     <meta charset="utf-8">
     <title>Кривые Безье</title>
 
-
+<style>
+    body{
+        background: #333;
+    }
+    #canvas{
+        height: 100%;
+        width: 100%;
+    }
+</style>
 </head>
 <body>
 <div style="clear: both">
-    <canvas id="canvas" style="width: 70%; float: left;" width="400" height="400">
-        <p>Увас не поддеривается Канвас, поставьте гугл хром =)</p>
-    </canvas>
+    <canvas id="canvas"></canvas>
 </div>
 
 <script src="util.js"></script>
@@ -28,6 +34,8 @@ window.onload = function(){
         vpY = canvas.height / 2;
         mouse = utils.captureMouse(canvas),
         balls = new Array;
+    context.strokeStyle = '#ffaa6b';
+    canvas.style.background = '#333';
 
 
     function setPoints(){

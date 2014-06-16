@@ -17,7 +17,7 @@ import pro.rudo.crud.app.model.Cave;
  * Created by rudolf on 12.05.14.
  */
 public class CaveSQLiteHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "SpeleoToolsDB";
 
     private static final String TABLE_CAVES = "caves";
@@ -123,7 +123,7 @@ public class CaveSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_CAVES);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CAVES);
 
         this.onCreate(sqLiteDatabase);
     }

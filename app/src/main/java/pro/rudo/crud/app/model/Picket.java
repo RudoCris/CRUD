@@ -43,7 +43,25 @@ public class Picket {
         this.down = builder.getDown();
         this.downComment = builder.getDownComment();
         this.comment = builder.getComment();
+    }
 
+    public Picket(Picket builder){
+        this.isRay = builder.isRay();
+        this.from = builder.getFrom();
+        this.to = builder.getTo();
+        this.azimuth = builder.getAzimuth();
+        this.backAzimuth = builder.getBackAzimuth();
+        this.incline = builder.getIncline();
+        this.backIncline = builder.getBackIncline();
+        this.left = builder.getLeft();
+        this.leftComment = builder.getLeftComment();
+        this.right = builder.getRight();
+        this.rightComment = builder.getRightComment();
+        this.up = builder.getUp();
+        this.upComment = builder.getUpComment();
+        this.down = builder.getDown();
+        this.downComment = builder.getDownComment();
+        this.comment = builder.getComment();
     }
 
     public String toJson() {

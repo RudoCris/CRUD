@@ -1,29 +1,20 @@
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="fill_parent">
 
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/create"
+        android:text="@string/add"
         android:id="@+id/createBtn"
         android:layout_gravity="center_horizontal" />
-
-
-    <fragment android:name="pro.rudo.crud.app.CaveFragment"
-        android:id="@+id/caveFragment"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_cave" />
 
     <ListView
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:id="@android:id/list"
         android:layout_gravity="center_horizontal" />
 

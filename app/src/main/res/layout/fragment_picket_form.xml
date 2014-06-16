@@ -1,9 +1,14 @@
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="pro.rudo.crud.app.PicketFormFragment"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pro.rudo.crud.app.PicketFormFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollView" >
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
@@ -69,7 +74,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="1">
+                android:layout_weight="1.5">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,14 +82,15 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/length"
                     android:id="@+id/lengthLbl"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.5"
                     android:gravity="center_horizontal" />
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="0.5"
+                    android:weightSum="1">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -93,12 +99,13 @@
                         android:text="@string/azimuth"
                         android:id="@+id/azimuthLbl"
                         android:layout_column="1"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.7"
                         android:gravity="center_horizontal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/currentAzimuthLbl" />
                 </LinearLayout>
@@ -107,7 +114,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="0.5">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,12 +123,13 @@
                         android:text="@string/incline"
                         android:id="@+id/inclineLbl"
                         android:layout_column="2"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.7"
                         android:gravity="center_horizontal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/currentInacleLbl" />
                 </LinearLayout>
@@ -131,28 +139,28 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="1">
+                android:layout_weight="1.5">
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/lengthTB"
-                    android:layout_weight="0.3"
-                    android:inputType="number" />
+                    android:layout_weight="0.5"
+                    android:inputType="numberDecimal" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/azimuthTB"
-                    android:layout_weight="0.3"
-                    android:inputType="number" />
+                    android:layout_weight="0.5"
+                    android:inputType="numberDecimal" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/inclineTB"
-                    android:layout_weight="0.3"
-                    android:inputType="number" />
+                    android:layout_weight="0.5"
+                    android:inputType="numberDecimal" />
 
             </TableRow>
 
@@ -175,14 +183,14 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/backAzimuthTB"
                     android:layout_weight="0.3"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/backInclineTB"
                     android:layout_weight="0.3"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </TableRow>
 
         </TableLayout>
@@ -244,28 +252,28 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/leftTB"
                     android:layout_weight="0.25"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/rightTB"
                     android:layout_weight="0.25"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/upTB"
                     android:layout_weight="0.25"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/downTB"
                     android:layout_weight="0.25"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
 
             </TableRow>
 
@@ -273,7 +281,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/commentTB"
@@ -283,3 +291,4 @@
             android:gravity="center_vertical"
             android:layout_weight="0.4" />
     </LinearLayout>
+</ScrollView>

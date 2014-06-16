@@ -3,10 +3,12 @@ package pro.rudo.crud.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -25,7 +27,7 @@ import pro.rudo.crud.app.sqlite.PicketSQLiteHelper;
  * Activities containing this fragment MUST implement the {@link }
  * interface.
  */
-public class PicketsFragment extends ListFragment {
+public class PicketsFragment extends ListFragment implements EditOrDeleteDialog.EditOrDeleteDialogListener {
 
     private OnFragmentInteractionListener mListener;
     private PicketSQLiteHelper db;
@@ -70,8 +72,18 @@ public class PicketsFragment extends ListFragment {
         db = new PicketSQLiteHelper(getActivity());
         List<Picket> pickets = db.getAllPickets();
 
-        ArrayAdapter<Picket> adapter = new ArrayAdapter<Picket>(getActivity(), android.R.layout.simple_list_item_1, pickets);
+        PicketsAdapter adapter = new PicketsAdapter(getActivity(), R.layout.listview_picket_row, pickets);
         setListAdapter(adapter);
+
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String title = getListView().getItemAtPosition(i).toString();
+                DialogFragment dialog = new EditOrDeleteDialog().newInstance(title);
+                dialog.show(getFragmentManager(), "editOrDelete");
+                return true;
+            }
+        });
     }
 
     @Override
@@ -92,6 +104,7 @@ public class PicketsFragment extends ListFragment {
     }
 
 
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
@@ -101,6 +114,11 @@ public class PicketsFragment extends ListFragment {
             // fragment is attached to one) that an item has been selected.
             mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
+    }
+
+    @Override
+    public void onDialogClick(DialogFragment dialogFragment, int which) {
+
     }
 
     /**

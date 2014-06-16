@@ -1,6 +1,5 @@
 package pro.rudo.crud.app.sqlite;
 
-import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,7 +16,7 @@ import pro.rudo.crud.app.model.PicketBuilder;
  * Created by rudolf on 05.05.14.
  */
 public class PicketSQLiteHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "SpeleoToolsDB";
 
     private static final String TABLE_PICKETS = "pickets";
