@@ -2,10 +2,11 @@ package pro.rudo.crud.app;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,14 +17,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 import pro.rudo.crud.app.model.Cave;
-import pro.rudo.crud.app.sqlite.CaveSQLiteHelper;
 
 public class MainActivity extends ListActivity{
-    private CaveSQLiteHelper db;
     private Button createBtn;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,16 +38,23 @@ public class MainActivity extends ListActivity{
                 startActivity(new Intent(getApplicationContext(), NewMap.class));
             }
         });
-        db = new CaveSQLiteHelper(this);
-        List<Cave> books = db.getAllCaves();
-
-        ArrayAdapter<Cave> adapter = new ArrayAdapter<Cave>(this, android.R.layout.simple_list_item_1, books);
-        setListAdapter(adapter);
+        final Context context = this;
+        final ArrayList<Cave> cavesLst = new ArrayList<Cave>();
+        final ArrayAdapter<Cave> adapter = new ArrayAdapter<Cave>(context, android.R.layout.simple_list_item_1, cavesLst);;
+        Cave.getAll(new Cave.GetAllCavesCallback() {
+            @Override
+            public void getAllCaves(List<Cave> caves) {
+                cavesLst.addAll(caves);
+                setListAdapter(adapter);
+            }
+        });
 
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String title = getListView().getItemAtPosition(i).toString();
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                String title = getListView().getItemAtPosition(position).toString();
+                final Cave cave = (Cave) getListView().getItemAtPosition(position);
+                Log.d("Cave", cave.toJson());
                 AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
                         .setTitle(title)
                         .setItems(R.array.actions, new DialogInterface.OnClickListener() {
@@ -58,6 +65,13 @@ public class MainActivity extends ListActivity{
                                         Toast.makeText(getApplicationContext(), "EDITED!", Toast.LENGTH_SHORT).show();
                                         break;
                                     case 1:
+                                        cave.delete(new Cave.DeleteCaveCallback() {
+                                            @Override
+                                            public void onDelete() {
+                                                cavesLst.remove(cave);
+                                                adapter.notifyDataSetChanged();
+                                            }
+                                        });
                                         Toast.makeText(getApplicationContext(), "DELETED!", Toast.LENGTH_SHORT).show();
                                         break;
                                 }
@@ -72,7 +86,8 @@ public class MainActivity extends ListActivity{
     @Override
     public void onListItemClick(ListView l, View v, int position, long id){
         super.onListItemClick(l, v, position, id);
-        startActivity(new Intent(getApplicationContext(), ShowCave.class));
+        final Cave cave = (Cave) getListView().getItemAtPosition(position);
+        startActivity(new Intent(getApplicationContext(), ShowCave.class).putExtra("caveId", cave.getId()));
         Toast.makeText(getApplicationContext(), l.getItemAtPosition(position).toString() , Toast.LENGTH_SHORT).show();
     }
 

@@ -1,5 +1,6 @@
 package pro.rudo.crud.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -11,11 +12,18 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class ShowCave extends FragmentActivity implements ActionBar.TabListener, PicketsFragment.OnFragmentInteractionListener, EditOrDeleteDialog.EditOrDeleteDialogListener {
+import pro.rudo.crud.app.model.Cave;
+import pro.rudo.crud.app.model.Picket;
+
+
+public class ShowCave extends FragmentActivity implements ActionBar.TabListener {
 
     CavePagerAdapter mCavePagerAdapter;
     ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +33,9 @@ public class ShowCave extends FragmentActivity implements ActionBar.TabListener,
 
         setTitle("Топосъемки");
         setContentView(R.layout.activity_show_cave);
-        mCavePagerAdapter = new CavePagerAdapter(getSupportFragmentManager());
+        Intent intent = getIntent();
+        int caveId = (Integer)intent.getExtras().get("caveId");
+        mCavePagerAdapter = new CavePagerAdapter(getSupportFragmentManager(), caveId);
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -61,32 +71,34 @@ public class ShowCave extends FragmentActivity implements ActionBar.TabListener,
 
     }
 
-    @Override
-    public void onFragmentInteraction(String id) {
-        Toast.makeText(this, "Wheee!", Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onDialogClick(DialogFragment dialogFragment, int which) {
-        Toast.makeText(this, (which == 0) ? "EDIT!" : "DELETE!", Toast.LENGTH_SHORT).show();
-
-    }
+//    @Override
+//    public void onDialogClick(DialogFragment dialogFragment, int which, int position) {
+//        Toast.makeText(this, (which == 0) ? "EDIT!" : "DELETE!", Toast.LENGTH_SHORT).show();
+//    }
 
 
     public static class CavePagerAdapter extends FragmentPagerAdapter {
+        private List<Fragment> fragments = new ArrayList<Fragment>();
 
-        public CavePagerAdapter(FragmentManager fm) {
+        public CavePagerAdapter(FragmentManager fm, int caveId) {
             super(fm);
+            Bundle args = new Bundle();
+            args.putInt("caveId", caveId);
+
+            PicketsFragment picketsFragment = new PicketsFragment();
+            CaveFragment caveFragment = new CaveFragment();
+
+            picketsFragment.setArguments(args);
+            caveFragment.setArguments(args);
+
+            fragments.add(picketsFragment);
+            fragments.add(caveFragment);
         }
 
-            @Override
+        @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new PicketsFragment();
-                default:
-                    return new CaveFragment();
-            }
+            return this.fragments.get(position);
         }
 
         @Override

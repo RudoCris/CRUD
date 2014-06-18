@@ -1,11 +1,28 @@
 package pro.rudo.crud.app.model;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by rudolf on 03.05.14.
  */
 public class Picket {
+
+    private static int count;
+    private String objectId;
+    private int caveId;
     private boolean isRay = false;
     private String from;
     private String to;
@@ -64,10 +81,164 @@ public class Picket {
         this.comment = builder.getComment();
     }
 
+    public interface PicketHelper {
+        public void onPicketFindDo(Picket picket);
+    }
+
+    public interface GetAllPicketsCallback {
+        public void getAllPickets(List<Picket> pickets);
+    }
+    public interface SavePicketCallback {
+        public void onSavePicket();
+    }
+
+    public interface DeletePicketCallback {
+        public void onDelete();
+    }
+
+    public static int newId(){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Counter");
+        query.fromLocalDatastore();
+        query.whereEqualTo("class", "Picket");
+
+        try {
+            ParseObject countObj = query.getFirst();
+            count = countObj.getInt("count");
+            countObj.put("count", ++count);
+            countObj.pin();
+            return count;
+        } catch (ParseException e) {
+            ParseObject count = new ParseObject("Counter");
+            count.put("class", "Picket");
+            count.put("count", 0);
+            count.pinInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+
+                }
+            });
+            return 0;
+        }
+    }
+    public static void find(int id, final PicketHelper helper){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Picket");
+        query.whereEqualTo("id", id);
+        query.fromLocalDatastore();
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+                    Picket picket = Picket.fromJson(parseObject.getString("json"));
+                    helper.onPicketFindDo(picket);
+                } else {
+                    Log.e("ParseException", "при поиске объекта с id");
+                }
+            }
+        });
+    }
+
+    public static void getAll(final GetAllPicketsCallback callback){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Picket");
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null){
+                    List<Picket> pickets = new ArrayList<Picket>();
+                    for(ParseObject object: objects ) {
+                        pickets.add(Picket.fromJson(object.getString("json")));
+                    }
+                    callback.getAllPickets(pickets);
+                } else {
+                    Log.e("ParseException", "Ошибка при получении всех пикетов");
+                }
+
+            }
+        });
+    }
+
+    public void save(final SavePicketCallback callback) {
+        final Picket self = this;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Picket");
+        query.whereEqualTo("id", this.id);
+        query.fromLocalDatastore();
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                SaveCallback saveCallback = new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        callback.onSavePicket();
+                    }
+                };
+                if (parseObject == null) {
+                    ParseObject picket = new ParseObject("Picket");
+                    self.id = Picket.newId();
+                    picket.put("id", self.id);
+                    picket.put("json", self.toJson());
+                    picket.put("caveId", self.caveId);
+                    picket.pinInBackground(saveCallback);
+                    picket.saveEventually(saveCallback);
+                } else {
+                    parseObject.put("json", self.toJson());
+                    parseObject.put("caveId", self.caveId);
+                    parseObject.pinInBackground(saveCallback);
+                    parseObject.saveEventually(saveCallback);
+                }
+                if (e != null) {
+                    e.printStackTrace();
+                    Log.e("ParseException", "при поиске пикета");
+                }
+            }
+        });
+    }
+
+    public void delete(final DeletePicketCallback callback) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Picket");
+        query.fromLocalDatastore();
+        query.getInBackground(this.objectId, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+                    parseObject.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            callback.onDelete();
+                        }
+                    });
+                } else {
+                    Log.e("ParseException", "при удалении пикета");
+                }
+            }
+        });
+    }
+
     public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
+
+    public static Picket fromJson(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, Picket.class);
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String id) {
+        this.objectId = id;
+    }
+
+    public int getCaveId() {
+        return caveId;
+    }
+
+    public void setCaveId(int caveId) {
+        this.caveId = caveId;
+    }
+
     public int getMapId() {
         return mapId;
     }

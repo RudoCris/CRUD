@@ -18,14 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.Parse;
-import com.parse.ParseObject;
-import com.parse.ParseAnalytics;
 
-import pro.rudo.crud.app.model.Book;
 import pro.rudo.crud.app.model.Picket;
 import pro.rudo.crud.app.model.PicketBuilder;
-import pro.rudo.crud.app.sqlite.PicketSQLiteHelper;
 
 import static java.lang.Math.PI;
 
@@ -57,7 +52,6 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
     private float[] accelerometerData;
     private float[] magnetData;
 
-    private PicketSQLiteHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +64,6 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
         accelerometerData = new float[3];
         magnetData = new float[3];
         orientationData = new float[3];
-
-        db = new PicketSQLiteHelper(this);
 
         sensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         lengthTB = (EditText) findViewById(R.id.lengthTB);
@@ -118,13 +110,15 @@ public class PicketActivity extends ActionBarActivity  implements SensorEventLis
                         .withComment(commentTB.getText().toString())
                         .createPicket();
 
-                long id = db.addPicket(picket);
-
-//                ParseObject testObject = new ParseObject("TestObject");
-//                testObject.put("foo", "rud");
-//                testObject.saveInBackground();
-                Toast.makeText(getApplicationContext(), "SAVED", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), ShowCave.class));
+                final int caveId = (Integer)getIntent().getExtras().get("caveId");
+                picket.setCaveId(caveId);
+                picket.save(new Picket.SavePicketCallback() {
+                    @Override
+                    public void onSavePicket() {
+                        Toast.makeText(getApplicationContext(), "SAVED", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), ShowCave.class).putExtra("caveId", caveId));
+                    }
+                });
             }
         });
     }

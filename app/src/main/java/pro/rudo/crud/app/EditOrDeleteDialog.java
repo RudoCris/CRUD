@@ -21,16 +21,17 @@ public class EditOrDeleteDialog extends DialogFragment {
     public EditOrDeleteDialog() {
     }
 
-    public static EditOrDeleteDialog newInstance(String title) {
+    public static EditOrDeleteDialog newInstance(String title, int position) {
         EditOrDeleteDialog dialog = new EditOrDeleteDialog();
         Bundle args =  new Bundle();
         args.putString("title", title);
+        args.putInt("position", position);
         dialog.setArguments(args);
         return dialog;
     }
 
     public interface EditOrDeleteDialogListener {
-        public void onDialogClick(DialogFragment dialogFragment, int which);
+        public void onDialogClick(DialogFragment dialogFragments, int which, int position);
     }
 
     EditOrDeleteDialogListener mListener;
@@ -51,11 +52,12 @@ public class EditOrDeleteDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String title = getArguments().getString("title");
+        final int position = getArguments().getInt("position");
         builder.setTitle(title)
                 .setItems(R.array.actions, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mListener.onDialogClick(EditOrDeleteDialog.this, i);
+                        mListener.onDialogClick(EditOrDeleteDialog.this, i, position);
                     }
                 });
         return builder.create();

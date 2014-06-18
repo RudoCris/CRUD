@@ -12,11 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pro.rudo.crud.app.dummy.DummyContent;
+import pro.rudo.crud.app.model.Cave;
 import pro.rudo.crud.app.model.Picket;
 import pro.rudo.crud.app.sqlite.PicketSQLiteHelper;
 
@@ -29,25 +32,15 @@ import pro.rudo.crud.app.sqlite.PicketSQLiteHelper;
  */
 public class PicketsFragment extends ListFragment implements EditOrDeleteDialog.EditOrDeleteDialogListener {
 
-    private OnFragmentInteractionListener mListener;
     private PicketSQLiteHelper db;
     private Button addBtn;
+    final ArrayList<Picket> picketsLst = new ArrayList<Picket>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public PicketsFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
     }
 
     @Override
@@ -60,80 +53,69 @@ public class PicketsFragment extends ListFragment implements EditOrDeleteDialog.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Bundle args = getArguments();
+        final int caveId = args.getInt("caveId");
         addBtn = (Button) getView().findViewById(R.id.addBtn);
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), PicketActivity.class));
+                startActivity(new Intent(getActivity(), PicketActivity.class).putExtra("caveId", caveId));
             }
         });
-
-        db = new PicketSQLiteHelper(getActivity());
-        List<Picket> pickets = db.getAllPickets();
-
-        PicketsAdapter adapter = new PicketsAdapter(getActivity(), R.layout.listview_picket_row, pickets);
-        setListAdapter(adapter);
+        final PicketsAdapter adapter = new PicketsAdapter(getActivity(), R.layout.listview_picket_row, picketsLst);
+        Cave.find(caveId, new Cave.CaveHelper() {
+            @Override
+            public void onCaveFindDo(Cave cave) {
+                cave.getPickets(new Cave.PicketsFinder() {
+                    @Override
+                    public void onPicketsFindDo(List<Picket> pickets) {
+                        picketsLst.addAll(pickets);
+                        setListAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
 
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String title = getListView().getItemAtPosition(i).toString();
-                DialogFragment dialog = new EditOrDeleteDialog().newInstance(title);
+                DialogFragment dialog = new EditOrDeleteDialog().newInstance(title, i);
+
                 dialog.show(getFragmentManager(), "editOrDelete");
                 return true;
             }
         });
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
     }
 
     @Override
-    public void onDialogClick(DialogFragment dialogFragment, int which) {
+    public void onDialogClick(DialogFragment dialogFragment, int which, int position) {
+        final Picket picket = (Picket) getListView().getItemAtPosition(position);
+        switch (which) {
+            case 0:
+                Toast.makeText(getActivity(), "EDITED!", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+//                picket.delete(new Picket.DeletePicketCallback() {
+//                    @Override
+//                    public void onDelete() {
+//                        picketsLst.remove(picket);
+//                    }
+//                });
+                Toast.makeText(getActivity(), "DELETED!", Toast.LENGTH_SHORT).show();
+                break;
 
-    }
-
-    /**
-    * This interface must be implemented by activities that contain this
-    * fragment to allow an interaction in this fragment to be communicated
-    * to the activity and potentially other fragments contained in that
-    * activity.
-    * <p>
-    * See the Android Training lesson <a href=
-    * "http://developer.android.com/training/basics/fragments/communicating.html"
-    * >Communicating with Other Fragments</a> for more information.
-    */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
+        }
     }
 
 }

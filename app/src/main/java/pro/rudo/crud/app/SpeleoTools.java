@@ -24,6 +24,8 @@ public class SpeleoTools extends Application {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "jG4p9JnJXW1f8jaYvynOTsB9z1BjZpFThx6MnLBc", "F8JQZoPtkUqYWTptr99vAvcdQnbjd9zh6LCXSTBW");
 
+
+
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         if(pref.getString("author", "") == "") {
